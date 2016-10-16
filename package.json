@@ -12,6 +12,8 @@
   "dependencies": {
     "axios": "^0.14.0",
     "history": "^1.17.0",
+    "less": "2.6.1",
+    "less-loader": "2.2.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",
