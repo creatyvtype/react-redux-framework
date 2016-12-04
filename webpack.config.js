@@ -7,7 +7,10 @@ var path = require('path');
 module.exports = {
     context: __dirname + "/app",
     devtool: debug ? "inline-sourcemap" : 'sourcemap',
-    entry: "./js/index.js",
+    entry: debug ? [
+        'webpack-hot-middleware/client?reload=true',
+        './js/index.js'
+    ] : './js/index.js',
     module: {
         loaders: [
             {
@@ -16,7 +19,7 @@ module.exports = {
                 loader: 'babel-loader',
                 query: {
                     presets: [ 'react', 'es2015', 'stage-0' ],
-                    plugins: ['react-html-attrs', 'transform-class-properties', 'transform-decorators-legacy']
+                    plugins: [ 'transform-class-properties', 'transform-decorators-legacy']
                 }
             }, { 
                 test: /\.less?$/,
@@ -41,8 +44,10 @@ module.exports = {
     },
 
     plugins: debug 
-    ? [] 
-    : [
+    ? [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin()
+    ] : [
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
